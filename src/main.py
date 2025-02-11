@@ -2,10 +2,19 @@ from extract_data import extract_data
 
 def main(file, start, end, n):
     """
-    Description
+    Can alter holdings in each stock either by total allowable move in weighting or based on a maximum 
+    ammount each holding can be altered by.
+    1. Altering holdings based on total allowable change end with:
+        1 maxChange
+    2. Altering holdings based on allowable change for each holding end with:
+        2 individualChange
     """
+    # Get average values in sampling region
     [values, emissions] = extract_data(file, start, end)
     
+    # Calculate optimal weights
+    if 
+
     #if n==1:
         
 if __name__ == "__main__":
