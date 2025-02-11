@@ -25,9 +25,9 @@ objective = cp.Minimize(alpha * cp.sum(cp.multiply(emissions, weights)) -
 constraints = [
     cp.sum(weights) == 1,
     weights >= 0,
-    cp.sum(cp.abs(weights - old_weights)) <= 0.05,
-    cp.abs(weights - old_weights) <= 0.01,
-    cp.sum(cp.multiply(emissions, weights)) <= 50  # Emissions cap
+    cp.sum(cp.abs(weights - old_weights)) <= 0.05,  # Total change in weights
+    cp.abs(weights - old_weights) <= 0.01,          # Max change in any individual weight
+    cp.sum(cp.multiply(emissions, weights)) <= 50   # Emissions cap
 ]
 
 # Solve
