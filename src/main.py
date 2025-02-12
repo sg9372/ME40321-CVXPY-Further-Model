@@ -1,4 +1,7 @@
+import numpy as np
+
 from extract_data import extract_data
+from total_weight_change_limit import total_weight_change_optimize
 
 def main(file, start, mid, end):
     """
@@ -11,11 +14,15 @@ def main(file, start, mid, end):
     """
     # Get average values in sampling region
     [values, emissions] = extract_data(file, start, mid)
+
+    # Original (fixed) weights before optimization
+    old_weights = np.random.rand(len(values))
+    old_weights /= old_weights.sum()  # Normalize to sum to 1
     
     # Calculate optimal weights
-    
+    if method=='total':
+        new_weights = total_weight_change_optimize(values, emissions, old_weights)
 
-    #if n==1:
         
 if __name__ == "__main__":
     import sys
