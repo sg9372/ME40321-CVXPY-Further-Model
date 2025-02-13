@@ -1,7 +1,7 @@
 import numpy as np
 import cvxpy as cp
 
-def trend_optimizer(historical_values, historical_emissions, old_weights):
+def trend_optimizer(historical_values, historical_emissions, old_weights, end):
     """
     Uses linear regression on historical data to forecast the next-day stock values
     and emissions for each asset, and then optimizes the portfolio weights.
@@ -26,11 +26,11 @@ def trend_optimizer(historical_values, historical_emissions, old_weights):
     for i in range(n):
         # Forecast stock value for asset i:
         slope_val, intercept_val = np.polyfit(t, historical_values[:, i], 1)
-        forecast_values[i] = slope_val * m + intercept_val  # forecast for day m (next day)
-
+        forecast_values[i] = slope_val * end + intercept_val  # forecast for day m (next day)
+        
         # Forecast emissions for asset i:
         slope_em, intercept_em = np.polyfit(t, historical_emissions[:, i], 1)
-        forecast_emissions[i] = slope_em * m + intercept_em
+        forecast_emissions[i] = slope_em * end + intercept_em
 
     # Now, forecast_values and forecast_emissions are treated as fixed parameters
     # in the optimization model.
@@ -41,7 +41,7 @@ def trend_optimizer(historical_values, historical_emissions, old_weights):
     # Set weightings (alpha for emissions, beta for returns/values)
     # Adjust these coefficients as needed for your trade-off.
     alpha = 1   # Weighting for emissions penalty
-    beta = 1    # Weighting for value benefit
+    beta = 0.02    # Weighting for value benefit
 
     # Define the objective:
     # Here we aim to minimize forecasted emissions while maximizing forecasted values.
@@ -61,8 +61,8 @@ def trend_optimizer(historical_values, historical_emissions, old_weights):
         cp.sum(cp.multiply(forecast_values, weights)) >= old_forecast_values,
         cp.sum(weights) == 1,          # Portfolio weights must sum to 1
         weights >= 0,                  # No short selling (non-negative weights)
-        cp.sum(cp.abs(weights - old_weights)) <= 0.5,  # Total change in weights allowed
-        cp.abs(weights - old_weights) <= 0.01          # Maximum change per asset
+        #cp.sum(cp.abs(weights - old_weights)) <= 0.5,  # Total change in weights allowed
+        cp.abs(weights - old_weights) <= 0.05          # Maximum change per asset
     ]
 
     # Solve the optimization problem

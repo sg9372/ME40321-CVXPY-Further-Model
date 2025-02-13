@@ -1,15 +1,11 @@
 import numpy as np
 
-from src.averages_extract import extract_averages
-from src.averages_optimizer import average_optimizer
-from src.trends_extract import extract_trends
+from averages_extract import extract_averages
+from averages_optimizer import average_optimizer
+from trends_extract import extract_trends
+from trends_optimizer import trend_optimizer
 
 def main(file, start, mid, end, method):
-    """
-    """
-    # Original (fixed) weights before optimization
-    
-    
     # Calculate optimal weights
     if method=='average':
         # Get average values in sampling region
@@ -20,8 +16,10 @@ def main(file, start, mid, end, method):
     elif method=='trend':
         # Get data trends for predicting future va;ues and emissions, and optimize based on these.
         [historical_values, historical_emissions] = extract_trends(file, start, mid)
-        
-    
+        old_weights = np.random.rand(len(historical_values[0]))
+        old_weights /= old_weights.sum()  # Normalize to sum to 1
+        new_weights = trend_optimizer(historical_values, historical_emissions, old_weights, end)
+      
     # Calculate results from optimal results
     [future_values, future_emissions] = extract_averages(file, mid, end)
 
