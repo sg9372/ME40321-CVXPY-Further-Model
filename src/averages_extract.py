@@ -19,10 +19,9 @@ def get_average_emissions(df, start_day, end_day):
     average = filtered_df[emission_columns].mean().to_numpy()
     return np.round(average, 2)
 
-def extract_data(file, start, end):
+def extract_averages(file, start, end):
     # Read data
     df = pd.read_excel(file)    
-    
     values = get_average_values(df, start, end)
     emissions = get_average_emissions(df, start, end)
     return [values, emissions]
