@@ -4,6 +4,7 @@ from averages_extract import extract_averages
 from averages_optimizer import average_optimizer
 from trends_extract import extract_trends
 from trends_optimizer import trend_optimizer
+from extract_sheets import extract_sheet_data
 
 def main(file, start, mid, end, method):
     # Calculate optimal weights
