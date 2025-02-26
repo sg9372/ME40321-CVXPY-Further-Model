@@ -2,11 +2,11 @@ import numpy as np
 
 from extract_sheet_names import get_sheet_names
 from src.extract_sheet_data import extract_sheet_data
-#from extract_values import extract_values
+from extract_values import extract_values
 #from optimizer import optimizer
 #from store_weights import store_weights
 
-def main(file, start, mid, end, method):
+def main(file, start, mid, end, method):    
     # Obtain sheet names and date ranges
     sheet_names, dates = get_sheet_names(file)
 
@@ -20,6 +20,7 @@ def main(file, start, mid, end, method):
         companies, weights, emissions = extract_sheet_data(file, sheet_name)
 
         # Extract values
+        values = extract_values(file, companies, start_date, end_date)
     
         # Calculate optimal weights
         #new_weights = optimizer(values, emissions, weights)
