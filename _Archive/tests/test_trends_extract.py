@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from src.trends_extract import extract_trends
+from _Archive.src.trends_extract import extract_trends
 
 class test_extract_trends(unittest.TestCase):
 

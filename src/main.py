@@ -1,13 +1,35 @@
 import numpy as np
 
-from averages_extract import extract_averages
-from averages_optimizer import average_optimizer
-from trends_extract import extract_trends
-from trends_optimizer import trend_optimizer
-from extract_sheets import extract_sheet_data
+from extract_sheet_names import get_sheet_names
+from src.extract_sheet_data import extract_sheet_data
+#from extract_values import extract_values
+#from optimizer import optimizer
+#from store_weights import store_weights
 
 def main(file, start, mid, end, method):
-    # Calculate optimal weights
+    # Obtain sheet names and date ranges
+    sheet_names, dates = get_sheet_names(file)
+
+    # Iterate through each date range
+    for i in range(len(dates)-1):
+        start_date = dates[i]
+        end_date = dates[i+1]
+        sheet_name = sheet_names[i]
+        
+        # Extract sheet data
+        companies, weights, emissions = extract_sheet_data(file, sheet_name)
+
+        # Extract values
+    
+        # Calculate optimal weights
+        #new_weights = optimizer(values, emissions, weights)
+        
+        # Store new weights in excel file
+        #store_weights(file, start_date, end_date ,sheet_name, new_weights)
+    
+
+
+'''
     if method=='average':
         # Get average values in sampling region
         [values, emissions] = extract_averages(file, start, mid)
@@ -35,7 +57,7 @@ def main(file, start, mid, end, method):
     old_returns = np.sum(future_values * old_weights)
     new_returns = np.sum(future_values * new_weights)
     print("Old returns:", np.round(old_returns,2))
-    print("New returns:", np.round(new_returns,2))
+    print("New returns:", np.round(new_returns,2))'''
 
         
 if __name__ == "__main__":

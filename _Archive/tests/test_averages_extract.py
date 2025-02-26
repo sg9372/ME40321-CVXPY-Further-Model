@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from src.averages_extract import extract_averages
+from _Archive.src.averages_extract import extract_averages
 
 class test_extract_averages(unittest.TestCase):
 

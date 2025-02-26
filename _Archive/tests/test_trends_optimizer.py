@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 import cvxpy as cp
-from src.trends_optimizer import trend_optimizer
+from _Archive.src.trends_optimizer import trend_optimizer
 
 class test_total_weight_change_optimize(unittest.TestCase):
 
