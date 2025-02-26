@@ -1,5 +1,6 @@
 import numpy as np
 
+from averages_optimizer import averages_optimizer
 from extract_sheet_names import get_sheet_names
 from src.extract_sheet_data import extract_sheet_data
 from extract_values import extract_values
@@ -23,13 +24,11 @@ def main(file, start, mid, end, method):
         values = extract_values(file, companies, start_date, end_date)
     
         # Calculate optimal weights
-        #new_weights = optimizer(values, emissions, weights)
+        new_weights = averages_optimizer(values, emissions, weights)
         
         # Store new weights in excel file
         #store_weights(file, start_date, end_date ,sheet_name, new_weights)
     
-
-
 '''
     if method=='average':
         # Get average values in sampling region
@@ -58,7 +57,8 @@ def main(file, start, mid, end, method):
     old_returns = np.sum(future_values * old_weights)
     new_returns = np.sum(future_values * new_weights)
     print("Old returns:", np.round(old_returns,2))
-    print("New returns:", np.round(new_returns,2))'''
+    print("New returns:", np.round(new_returns,2))
+'''
 
         
 if __name__ == "__main__":

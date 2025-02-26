@@ -13,6 +13,7 @@ def extract_sheet_data(file, sheet_name):
 
     weights = df['Weight percent'].to_numpy()
     weights = weights[~np.isnan(weights)]
+    weights = weights / 100
     
     emissions = df['Emissions'].to_numpy()
     emissions = emissions[~np.isnan(emissions)]

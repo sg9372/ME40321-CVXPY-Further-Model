@@ -7,16 +7,7 @@ def extract_values(file, companies, start_Date, end_Date):
     
     # Filter based on the Date range
     filtered_df = df[(df['Date'] >= start_Date) & (df['Date'] <= end_Date)]
-    
-    # Go through companies in order and add to value_columns if they are in the dataframe (which they hopefully always will be)
-    value_columns = []
-    for company in companies:
-        if company in df.columns:
-            value_columns.append(company)
-    
-    value_columns = [company for company in companies if company in df.columns]
-    
-    print(companies)
-    average = filtered_df[value_columns].mean().to_numpy()
-    print("Averages:", average)
+  
+    # Calculate averages and round to 2dp
+    average = filtered_df[companies].mean().to_numpy()
     return np.round(average, 2)

@@ -2,14 +2,14 @@ import cvxpy as cp
 import numpy as np
 
 def average_optimizer(values, emissions, old_weights):
-    n = len(values)
+    n = len(old_weights)
     
     # Variable to optimize
     weights = cp.Variable(n)
 
     # Weighting of how much we care about emissions relative to weights e.g. $1 per 1kg CO2e
     alpha = 1   # Emissions
-    beta = 0.02  # Returns
+    beta = 0  # Returns
 
     # Define objective function
     objective = cp.Minimize(alpha * cp.sum(cp.multiply(emissions, weights)) - 
@@ -26,7 +26,7 @@ def average_optimizer(values, emissions, old_weights):
         cp.sum(weights) == 1,
         weights >= 0,
         #cp.sum(cp.abs(weights - old_weights)) <= 0.5,  # Total change in weights
-        cp.abs(weights - old_weights) <= 0.05,    
+        cp.abs(weights - old_weights) <= 0.001,    
     ]
 
     # Solve

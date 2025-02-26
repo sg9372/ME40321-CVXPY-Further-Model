@@ -22,4 +22,4 @@ class test_extract_sheet_data(unittest.TestCase):
     def test_WeightsTotal(self):
         file = 'Monthly FTSE Data - New.xlsx'
         _, weights, _ = extract_sheet_data(file, '01_2020')
-        self.assertAlmostEqual(np.sum(weights), 100)
+        self.assertAlmostEqual(np.sum(weights), 1)
