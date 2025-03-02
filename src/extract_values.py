@@ -5,9 +5,13 @@ def extract_values(file, companies, start_Date, end_Date):
     # Read data
     df = pd.read_excel(file, sheet_name='ftse100_closing_prices') 
     
+    # Convert from UK to US date format (DD/MM/YYYY to MM/DD/YYYY)
+    US_start_Date = pd.to_datetime(start_Date, dayfirst=True).strftime('%m/%d/%Y')
+    US_end_Date = pd.to_datetime(end_Date, dayfirst=True).strftime('%m/%d/%Y')
+
     # Filter based on the Date range
-    filtered_df = df[(df['Date'] >= start_Date) & (df['Date'] <= end_Date)]
+    filtered_df = df[(df['Date'] >= US_start_Date) & (df['Date'] <= US_end_Date)]
   
     # Calculate averages and round to 2dp
     average = filtered_df[companies].mean().to_numpy()
-    return np.round(average, 2)
+    return np.round(average, 2), filtered_df['Date'].to_numpy()

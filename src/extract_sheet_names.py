@@ -23,5 +23,7 @@ def get_sheet_names(file):
         else:
             dates.append(pd.to_datetime(sheet_names[i], format='%d_%m_%Y').strftime('%d/%m/%Y'))
 
+    excel_file.close()
+
     # Print the list of sheet names
     return sheet_names, dates
