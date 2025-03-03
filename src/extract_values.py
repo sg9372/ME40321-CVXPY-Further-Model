@@ -11,7 +11,12 @@ def extract_values(file, companies, start_Date, end_Date):
 
     # Filter based on the Date range
     filtered_df = df[(df['Date'] >= US_start_Date) & (df['Date'] <= US_end_Date)]
-  
-    # Calculate averages and round to 2dp
-    average = filtered_df[companies].mean().to_numpy()
-    return np.round(average, 2), filtered_df['Date'].to_numpy()
+    
+    # Replace NaN with the average of the entire dataset
+    filtered_df = filtered_df.fillna(filtered_df.mean())
+
+    # Extract values as a 2D array
+    values = filtered_df[companies].to_numpy()
+
+    # Return
+    return np.round(values, 2), filtered_df['Date'].to_numpy()

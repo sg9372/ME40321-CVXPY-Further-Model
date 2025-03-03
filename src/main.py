@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import traceback
 
-from averages_optimizer import average_optimizer
+from supervised_learning_optimizer import supervised_learning_optimizer
 from extract_sheet_names import get_sheet_names
 from extract_sheet_data import extract_sheet_data
 from extract_values import extract_values
@@ -20,7 +20,7 @@ def main():
     # Create a DataFrame with the top row of company tickers
     all_companies_df = pd.read_excel(file, sheet_name='ftse100_closing_prices')
     all_companies = all_companies_df.columns.tolist()[1:]
-    new_weights_df = pd.DataFrame(columns=['Date'] + all_companies)
+    optimized_weights_df = pd.DataFrame(columns=['Date'] + all_companies)
     old_weights_df = pd.DataFrame(columns=['Date'] + all_companies)
     
     # Iterate through each date range
@@ -34,26 +34,27 @@ def main():
         companies, weights, emissions = extract_sheet_data(file, sheet_name)
 
         # Extract values
-        values = extract_values(file, companies, start_date, end_date)
+        values, dates_range = extract_values(file, companies, start_date, end_date)
         
         # Clean data
-        if np.isnan(values).any():
-            emissions = np.nan_to_num(emissions)
-            values = np.nan_to_num(values)
-            weights = np.nan_to_num(weights)
+        #if np.isnan(values).any():
+        #    emissions = np.nan_to_num(emissions)
+        #    values = np.nan_to_num(values)
+        #    weights = np.nan_to_num(weights)
         
         # Calculate optimal weights
-        optimized_weights = average_optimizer(values, emissions, weights)
+        optimized_weights = supervised_learning_optimizer(values, emissions, weights)
+        
         # Put new weights in "all company list" format
-        formatted_weights = format_weights(all_companies, companies, optimized_weights, end_date)
-        formatted_old_weights = format_weights(all_companies, companies, weights, end_date)
+        formatted_optimized_weights_df = format_weights(all_companies, companies, optimized_weights, dates_range)
+        formatted_old_weights_df = format_weights(all_companies, companies, weights, dates_range)
 
         # Append new weights to new_weights_df
-        new_weights_df = update_df(new_weights_df, end_date, formatted_weights)
-        old_weights_df = update_df(old_weights_df, end_date, formatted_old_weights)
+        optimized_weights_df = update_df(optimized_weights_df, formatted_optimized_weights_df)
+        old_weights_df = update_df(old_weights_df, formatted_old_weights_df)
 
     # Write df to new sheet
-    write_df(new_weights_df, old_weights_df)
+    write_df(optimized_weights_df, old_weights_df)
     
 if __name__ == "__main__":
     import sys
