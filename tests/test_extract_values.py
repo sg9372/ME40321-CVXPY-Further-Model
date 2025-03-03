@@ -1,5 +1,6 @@
 import unittest
 import numpy as np
+import pandas as pd
 from src.extract_sheet_data import extract_sheet_data
 from src.extract_values import extract_values
 
@@ -32,7 +33,20 @@ class test_extract_values(unittest.TestCase):
         file = 'Monthly FTSE Data - New.xlsx'
         companies,_,_ = extract_sheet_data(file, '01_2020')
         start_Date = '01/01/2020'
-        end_Date = '05/01/2020'
+        end_Date = '06/01/2020'
+        
+
+        _,dates = extract_values(file, companies, start_Date, end_Date)
+        self.assertEqual(len(dates), 4)
+
+    # Test data type is np.array
+    def test_DateDataType(self):
+        # Test if the function returns dates as a numpy array
+        file = 'Monthly FTSE Data - New.xlsx'
+        companies,_,_ = extract_sheet_data(file, '01_2020')
+        start_Date = '01/01/2020'
+        end_Date = '06/01/2020'
         
         _,dates = extract_values(file, companies, start_Date, end_Date)
-        self.assertEqual(len(dates), 22)
+        self.assertIsInstance(dates, pd.Series)
+        

@@ -14,4 +14,4 @@ def extract_values(file, companies, start_Date, end_Date):
   
     # Calculate averages and round to 2dp
     average = filtered_df[companies].mean().to_numpy()
-    return np.round(average, 2), filtered_df['Date'].to_numpy()
+    return np.round(average, 2), filtered_df['Date']
