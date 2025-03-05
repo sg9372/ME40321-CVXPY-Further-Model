@@ -37,10 +37,10 @@ def main():
         values, dates_range = extract_values(file, companies, start_date, end_date)
         
         # Clean data
-        #if np.isnan(values).any():
-        #    emissions = np.nan_to_num(emissions)
-        #    values = np.nan_to_num(values)
-        #    weights = np.nan_to_num(weights)
+        if np.isnan(values).any():
+            emissions = np.nan_to_num(emissions)
+            values = np.nan_to_num(values)
+            weights = np.nan_to_num(weights)
         
         # Calculate optimal weights
         optimized_weights = supervised_learning_optimizer(values, emissions, weights)
