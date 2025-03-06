@@ -16,7 +16,7 @@ def average_optimizer(values, emissions, old_weights):
 
     # Define constraints
     constraints = [
-        cp.sum(cp.multiply(emissions, weights)) <= old_emissions*0.95,   # Emissions cap
+        cp.sum(cp.multiply(emissions, weights)) <= old_emissions*0.8,   # Emissions cap
         cp.sum(cp.multiply(values, weights)) >= old_values*0.98,         # Values limit
         cp.sum(weights) == 1,
         weights >= 0,
