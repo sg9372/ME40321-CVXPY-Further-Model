@@ -9,6 +9,7 @@ def extract_values(file, companies, end_Date, rows):
     US_end_Date = pd.to_datetime(end_Date, dayfirst=True).strftime('%m/%d/%Y')
 
     # Filter based on the Date range
+<<<<<<< HEAD
     filtered_df = df[df['Date'] <= US_end_Date]
 
     # Sort by date and select the last 'rows' number of rows
@@ -29,3 +30,10 @@ def extract_values(file, companies, end_Date, rows):
 
     # Return
     return np.round(past_values, 2), np.round(future_values, 2),filtered_df['Date'].to_numpy()
+=======
+    filtered_df = df[(df['Date'] >= US_start_Date) & (df['Date'] <= US_end_Date)]
+  
+    # Calculate averages and round to 2dp
+    average = filtered_df[companies].mean().to_numpy()
+    return np.round(average, 2), filtered_df['Date']
+>>>>>>> b697049128bba8e3694ebff41e7326c57f1be117

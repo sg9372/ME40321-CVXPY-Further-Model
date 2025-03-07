@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from datetime import datetime
 import traceback
 
 from supervised_learning_optimizer import supervised_learning_optimizer
@@ -25,7 +26,8 @@ def main():
     
     # Iterate through each date range
     for i in range(len(dates)-1):
-        start_date = dates[i]
+        start_date = datetime.strptime(dates[i], '%d/%m/%Y') + pd.DateOffset(days=1)
+        start_date = start_date.strftime('%d/%m/%Y')
         end_date = dates[i+1]
         sheet_name = sheet_names[i]
         print(start_date)
@@ -43,6 +45,7 @@ def main():
             weights = np.nan_to_num(weights)
         
         # Calculate optimal weights
+<<<<<<< HEAD
         optimized_weights = supervised_learning_optimizer(values, emissions, weights)
         
         # Put new weights in "all company list" format
@@ -51,6 +54,16 @@ def main():
 
         # Append new weights to new_weights_df
         optimized_weights_df = update_df(optimized_weights_df, formatted_optimized_weights_df)
+=======
+        optimized_weights = average_optimizer(values, emissions, weights)
+        
+        # Put new weights in "all company list" format and create a DataFrame
+        formatted_weights_df = format_weights(all_companies, companies, optimized_weights, dates_range)
+        formatted_old_weights_df = format_weights(all_companies, companies, weights, dates_range)
+
+        # Append new dataframes to existing dataframes
+        optimized_weights_df = update_df(optimized_weights_df, formatted_weights_df)
+>>>>>>> b697049128bba8e3694ebff41e7326c57f1be117
         old_weights_df = update_df(old_weights_df, formatted_old_weights_df)
 
     # Write df to new sheet

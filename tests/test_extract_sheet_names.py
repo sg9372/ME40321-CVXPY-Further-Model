@@ -7,13 +7,13 @@ class test_extract_sheet_names(unittest.TestCase):
         # Test if the function returns the correct sheet names
         file = 'Monthly FTSE Data - New.xlsx'
         sheet_names, _ = get_sheet_names(file)
-        self.assertEqual(len(sheet_names), 58)
+        self.assertEqual(len(sheet_names), 61)
 
     def test_DatesPageCount(self):
         # Test if the function returns the correct sheet names
         file = 'Monthly FTSE Data - New.xlsx'
         _, dates = get_sheet_names(file)
-        self.assertEqual(len(dates), 58)
+        self.assertEqual(len(dates), 61)
     
     def test_DateLength(self):
         # Test if the function returns the correct sheet names
