@@ -17,5 +17,7 @@ def extract_sheet_data(file, sheet_name):
     
     emissions = df['Emissions'].to_numpy()
     emissions = emissions[~np.isnan(emissions)]
+
+    sectors = df['NAICS Sector Name'].dropna().tolist()
     
-    return companies, weights, emissions
+    return companies, weights, emissions, sectors
