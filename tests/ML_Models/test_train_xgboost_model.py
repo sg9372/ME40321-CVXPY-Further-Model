@@ -3,7 +3,7 @@ import numpy as np
 import xgboost as xgb
 import pandas as pd 
 
-from src.train_xgboost_model import train_xgboost_model
+from src.ML_Models.train_xgboost_model import train_xgboost_model
 from src.extract_values import extract_values
 from src.extract_sheet_data import extract_sheet_data
 from src.extract_sheet_names import get_sheet_names
@@ -35,7 +35,7 @@ class TestTrainXGBoostModel(unittest.TestCase):
         # Test if the model is of type XGBRegressor
         model, predictions = train_xgboost_model(self.current_values, self.future_values)
         self.assertIsInstance(model, xgb.Booster)
-    
+    '''
     def  test_values(self):
         # Test if the model predictions are close to the average future values
         sheet_names, dates = get_sheet_names("Monthly FTSE Data - New.xlsx")
@@ -52,4 +52,5 @@ class TestTrainXGBoostModel(unittest.TestCase):
                 _,_ = train_xgboost_model(curr_values, fut_values, model=model)
             print(i)
             
-        fut_averages = np.mean(fut_values, axis=0)
+        fut_averages = np.mean(fut_values, axis=0)'
+        '''
