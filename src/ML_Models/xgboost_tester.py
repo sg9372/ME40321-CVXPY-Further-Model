@@ -12,17 +12,16 @@ import pandas as pd
 def calculate_values(y_test, y_pred):
     # Calculate prediction error
     error = np.mean(y_test) - np.mean(y_pred)
-
     return error
 
 def test_real_data():
     # Test if the model can be trained with real data
-    companies = ['STAN.L']
+    companies = ['HBR.L']
     window_sizes = [2,5,10,20,40,80,160,320]
     data, _ = extract_values('Monthly FTSE Data - New.xlsx', companies, '01/01/2020', '01/10/2023')
     days = 60
     results_df = pd.DataFrame(columns=['date', 'window_size', 'LastQAvgError', 'MLError'])
-    for date in range(550, 946-60): # 946-60 # Must be max + 2, max + 1 gives sufficient space for biggest window then 1 more for target value
+    for date in range(max(window_sizes)+2, 946-60): # 946-60 # Must be max + 2, max + 1 gives sufficient space for biggest window then 1 more for target value
         print(date)
         for window_size in window_sizes:   
             y_train = data[:date]
@@ -40,6 +39,6 @@ def test_real_data():
             }
             results_df = pd.concat([results_df, pd.DataFrame([results])], ignore_index=True)
         if date%50==0:
-            results_df.to_excel('xgboost_test_results_550-.xlsx', index=False)
+            results_df.to_excel('xgboost_test_results_avgError_highVolatility.xlsx', index=False)
 
 test_real_data()
