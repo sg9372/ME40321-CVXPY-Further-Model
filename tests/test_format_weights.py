@@ -2,10 +2,11 @@ import unittest
 from src.format_weights import format_weights
 from src.extract_values import extract_values
 from src.extract_sheet_data import extract_sheet_data
+
 import numpy as np
 import pandas as pd 
 
-class test_extract_values(unittest.TestCase):
+class test_format_weights(unittest.TestCase):
     def test_DataSize(self):
         # Test if the function returns the correct data size
         all_companies = ['Company A', 'Company B', 'Company C', 'Company D', 'Company E']
@@ -29,7 +30,7 @@ class test_extract_values(unittest.TestCase):
         file = "Monthly FTSE Data - New.xlsx"
         sheet_name = "ftse100_closing_prices"
         
-        companies, weights, _ = extract_sheet_data(file, '01_2020')
+        companies, weights, _, _ = extract_sheet_data(file, '01_2020')
         _, dates_range = extract_values(file, companies, "01/01/2020", "15/01/2020")
 
         all_companies_df = pd.read_excel(file, sheet_name=sheet_name)
@@ -39,3 +40,6 @@ class test_extract_values(unittest.TestCase):
         
         self.assertEqual(result.shape, (len(dates_range), len(all_companies) + 1))
         self.assertIsInstance(result, pd.DataFrame)
+
+if __name__ == "__main__":
+    unittest.main()
