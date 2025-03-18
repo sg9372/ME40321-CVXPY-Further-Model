@@ -52,12 +52,15 @@ class TestXGBoostDailyAnalysis(unittest.TestCase):
     def test_real_data(self):
         # Test if the model can be trained with real data
         companies = ['STAN.L']
-        data, _ = extract_values('Monthly FTSE Data - New.xlsx', companies, '01/01/2020', '01/01/2023')
-        future_data, _ = extract_values('Monthly FTSE Data - New.xlsx', companies, '01/01/2023', '01/04/2023')
-        window_size = 10
-        model, _ = xgboost_daily_analysis(data, window_size, justTrain=True)
-        predictions = justTest(model, data[-window_size:], window_size)
-        plot_data(future_data[:window_size], predictions, y_train=data)
+        mid_date = '01/06/2022'
+        data, _ = extract_values('Monthly FTSE Data - New.xlsx', companies, '01/01/2020', mid_date)
+        future_data, _ = extract_values('Monthly FTSE Data - New.xlsx', companies, mid_date, '01/09/2023')
+        window_size = 100
+        days = 60
+        print(data.shape)
+        model, _ = xgboost_daily_analysis(data, window_size)
+        predictions = justTest(model, data[-window_size:], days)
+        plot_data(future_data[:days], predictions, y_train=data)
         self.assertIsNotNone(model)
         self.assertIsNotNone(predictions)
     '''   
