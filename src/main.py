@@ -16,7 +16,7 @@ def main():
     # File name
     file = "Monthly FTSE Data - New.xlsx"
 
-    # Sectors
+    # Sectors list
     all_sectors = [
     "Finance and Insurance",
     "Manufacturing",
