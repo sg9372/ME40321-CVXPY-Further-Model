@@ -49,7 +49,7 @@ def main():
 
     
     # Iterate through each date range
-    for i in range(len(dates)-1):
+    for i in range(len(dates)-5,len(dates)-1):
         start_date = datetime.strptime(dates[i], '%d/%m/%Y') + pd.DateOffset(days=1)
         start_date = start_date.strftime('%d/%m/%Y')
         end_date = dates[i+1]
@@ -58,9 +58,6 @@ def main():
 
         # Extract sheet data
         companies, weights, emissions, company_sectors = extract_sheet_data(file, sheet_name)
-
-        
-
 
         # Extract values
         values, dates_range = extract_values(file, companies, start_date, end_date)
