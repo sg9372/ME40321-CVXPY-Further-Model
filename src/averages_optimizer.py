@@ -1,7 +1,13 @@
 import cvxpy as cp
 import numpy as np
 
-def average_optimizer(values, emissions, old_weights, current_values,sector_indices):
+def average_optimizer(values, emissions, old_weights, current_values, sector_indices):
+    #print("Values", values)
+    #print("Emissions", emissions)
+    #print("Old Weights", old_weights)
+    #print("Current Values", current_values)
+    #print("Sector Indices", sector_indices)
+    
     n = len(old_weights)
 
     # Variable to optimize
@@ -23,9 +29,6 @@ def average_optimizer(values, emissions, old_weights, current_values,sector_indi
         cp.sum(weights) == 1,
         weights >= 0,
         cp.sum(cp.multiply(current_values, weights)) == cp.sum(cp.multiply(current_values, old_weights)), # Means we can't magic in more money
-        cp.sum(cp.abs(weights - old_weights)) <= 0.15,  # Total change in weights
-        #cp.sum(cp.abs(weights - old_weights)) <= 0.5,  # Total change in weights
-        #cp.abs(weights - old_weights) <= 0.002, 
     ]
 
     for indices in sector_indices:

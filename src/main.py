@@ -44,7 +44,8 @@ def main():
     # Create a DataFrame with the top row of company tickers
     all_companies_df = pd.read_excel(file, sheet_name='ftse100_closing_prices')
     all_companies = all_companies_df.columns.tolist()[1:]
-    
+
+    # Define needed dataframes for weights and sector weights    
     optimized_weights_df = pd.DataFrame(columns=['Date'] + all_companies)
     old_weights_df = pd.DataFrame(columns=['Date'] + all_companies)
 
@@ -53,8 +54,7 @@ def main():
 
     # Iterate through each date range
     for i in range(1,len(dates)-1):
-        start_date = datetime.strptime(dates[i-1], '%d/%m/%Y') + pd.DateOffset(days=1)
-        start_date = start_date.strftime('%d/%m/%Y')
+        start_date = dates[i-1]             #datetime.strptime(dates[i-1], '%d/%m/%Y') + pd.DateOffset(days=1)   #start_date = start_date.strftime('%d/%m/%Y')
         curr_date = dates[i]
         end_date = dates[i+1]
         sheet_name = sheet_names[i]
@@ -69,7 +69,6 @@ def main():
         # Clean data
         if np.isnan(values).any():
             emissions = np.nan_to_num(emissions)
-            values = np.nan_to_num(values)
             weights = np.nan_to_num(weights)
         
         # Get sector indicies

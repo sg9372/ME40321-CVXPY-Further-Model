@@ -11,13 +11,15 @@ def extract_values(file, companies, start_Date, curr_Date, end_Date):
     US_end_Date = pd.to_datetime(end_Date, dayfirst=True).strftime('%m/%d/%Y')
 
     # Filter based on the Date range
-    filtered_df = df[(df['Date'] >= US_start_Date) & (df['Date'] <= US_curr_Date)]
+    filtered_df = df[(df['Date'] >= US_start_Date) & (df['Date'] <= US_curr_Date)].copy()
+    filtered_df.interpolate(method='linear', inplace=True, limit_direction='both', axis=0)
     dates_df = df[(df['Date'] >= US_curr_Date) & (df['Date'] <= US_end_Date)]
     
     # Calculate get data for the actual companies we want
     company_values = filtered_df[companies].to_numpy()
 
+    # Get the current values and mean values
+    mean_values = np.mean(company_values, axis=0)
     current_values = company_values[-1,:]
-    print(current_values.shape)
-    
-    return np.round(company_values, 2), dates_df['Date'].to_numpy(), current_values
+
+    return np.round(mean_values, 2), dates_df['Date'].to_numpy(), current_values
