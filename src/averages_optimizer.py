@@ -1,12 +1,12 @@
 import cvxpy as cp
 import numpy as np
 
-def average_optimizer(values, emissions, old_weights, current_values, sector_indices):
-    #print("Values", values)
+def average_optimizer(values, emissions, old_weights, sector_indices, end_of_last_sector_portfolio_value=None):
+    print("Values", values)
     #print("Emissions", emissions)
     #print("Old Weights", old_weights)
-    #print("Current Values", current_values)
     #print("Sector Indices", sector_indices)
+
     
     n = len(old_weights)
 
@@ -22,13 +22,25 @@ def average_optimizer(values, emissions, old_weights, current_values, sector_ind
 
     sector_limit = 0.025  # maximum weight per sector
 
+    if end_of_last_sector_portfolio_value is not None:
+        portfolio_value = end_of_last_sector_portfolio_value
+    else:
+        portfolio_value = np.sum(values * old_weights)
+
+    print("Portfolio value", portfolio_value)
+
+    predicted_portfolio_value = cp.sum(cp.multiply(values, weights))
+
+    #objective = cp.Maximize(predicted_portfolio_value-portfolio_value)
+
+
     # Define constraints
     constraints = [
         cp.sum(cp.multiply(emissions, weights)) <= old_emissions*0.8,   # Emissions cap
-        cp.sum(cp.multiply(values, weights)) >= old_values*0.98,         # Values limit
         cp.sum(weights) == 1,
         weights >= 0,
-        cp.sum(cp.multiply(current_values, weights)) == cp.sum(cp.multiply(current_values, old_weights)), # Means we can't magic in more money
+        cp.sum(cp.multiply(values, weights)) == portfolio_value,  # Means we can't magic in more money
+        cp.sum(cp.abs(weights - old_weights)) <= 0.2,  # Total change in weights
     ]
 
     for indices in sector_indices:
